@@ -10,6 +10,7 @@ import ClickableLabel
 import Utility
 import WelcomeImage
 import base64
+import Version
 
 from RegWindow import RegWindow
 
@@ -50,7 +51,7 @@ class WelcomeWindow(QMainWindow):
 
 #         self.frame = QtGui.QFrame(self.centralwidget)        
 #         self.centralwidget.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Seagate Product Registration')
+        self.setWindowTitle('Seagate Product Registration V%s'%(Version.version))
     
     def buttonClicked(self):
         print('Button Clicked')
@@ -58,14 +59,6 @@ class WelcomeWindow(QMainWindow):
         self.emit(QtCore.SIGNAL("SWITCH_WINDOW"), True)
         
 if __name__ == '__main__':
-#     app = QtGui.QApplication(sys.argv)
-#     main_window = WelcomeWinodw()
-#     main_window.show()
-#     sys.exit(app.exec_())
-     
-#     reg_window = RegWindow()
-#     reg_window.show()
-
     app = QtGui.QApplication(sys.argv)
     welcome_window = WelcomeWindow()
     welcome_window.show() 
@@ -73,8 +66,9 @@ if __name__ == '__main__':
     
     @pyqtSlot()
     def switchWindow():
-        welcome_window.close()
+#         welcome_window.close()
         welcome_window.deleteLater()
+        reg_window.accessRegPage()
         reg_window.show()     
     
     QObject.connect(welcome_window, SIGNAL("SWITCH_WINDOW"), switchWindow)

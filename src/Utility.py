@@ -78,7 +78,7 @@ def findFolder(drive_letter, target_folder):
     print '--> Look up for', full_directory
     
     if os.path.isdir(full_directory):
-        return full_directory
+        return True
     else:
         return False
 
