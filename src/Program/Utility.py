@@ -116,9 +116,7 @@ def parseXML(xml_path):
     root = tree.getroot()
     drive_info_dict = {}
     
-    for drive_info_block in root.iter('DRIVEINFO'):
-#         print drive_info_block.find('SERIAL_NUM').text
-        
+    for drive_info_block in root.iter('DRIVEINFO'):     
         for block in drive_info_block:
             drive_info_dict.update({block.tag:block.text})
             

@@ -121,10 +121,10 @@ if __name__ == "__main__":
     fileHandle.write ( 'Total Line Number: %s\nTotal Method Number: %s' %(lineNum, functionNum))
     fileHandle.close()
 
-    int_icon_path = os.path.join(pathProgram(),"release\\Program\\seagate_logo.ico") 
-    int_entry_path = os.path.join(pathProgram(),"release\\Program_Start.py")
+    icon_path = os.path.join(pathProgram(),"release\\Program\\seagate_logo.ico") 
+    entry_path = os.path.join(pathProgram(),"release\\Program_Start.py")
 
-    packageProgram(int_entry_path, int_icon_path)
+    packageProgram(entry_path, icon_path)
 
     version_path = os.path.join(pathProgram(), "release", "Version.py")
     version_str = "version = '%s'" %(__version__)
@@ -132,5 +132,9 @@ if __name__ == "__main__":
     fileHandle = open ( version_path, 'w' )
     fileHandle.write ( version_str )
     fileHandle.close()
-
+    
+    win_dist_dir = os.path.join(pathProgram(),'dist_win')
+    
+    renameFolder(dist_dir, win_dist_dir)
+    
     removeFolder(build_dir)
