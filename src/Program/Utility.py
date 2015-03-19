@@ -16,7 +16,7 @@ import time
 # Global Variables -------------------------------------------------------------------
 EventLevel = {'INFOR':0 ,'DEBUG': 1, 'ERROR': 3, 'FATAL': 4}
 
-MinLevel = 'DEBUG'
+MinLevel = 'INFOR'
 
 # Four levels for log recording
 # Level-1:NORMAL
@@ -44,14 +44,26 @@ def listDrives():
     #Get the fixed drives
     #wmic logicaldisk get name,description
     if 'win' in sys.platform:
-        drivelist = subprocess.Popen('wmic logicaldisk get name,description', shell=True, stdout=subprocess.PIPE)
-        drivelisto, err = drivelist.communicate()
-        driveLines = drivelisto.split('\r\r\n')
-        for line in driveLines:
-            if len(line) == '':
-                driveLines.remove('')
+        import win32api
+        
+        drives = win32api.GetLogicalDriveStrings()
+        driveList = drives.split('\000')[:-1]
+      
+        return driveList
+#         log = open(logfile, 'a')
+#         log.flush()  # <-- here's something not to forget!
+#         log.write('Log File\r\n-------------\r\n')
+#         
+#         drivelist = subprocess.Popen('wmic logicaldisk get name,description', stdout=log, stderr=log, shell=True)
+#         MyPrint('-->drivelist%s' %(drivelist), level='DEBUG')
+# #         drivelist = subprocess.Popen('wmic logicaldisk get name,description', shell=True, stdout=subprocess.PIPE)
+#         drivelisto, err = drivelist.communicate()
+#         
+#         driveLines = drivelisto.split('\r\r\n')
+#         for line in driveLines:
+#             if len(line) == '':
+#                 driveLines.remove('')
                
-        return driveLines
 
     elif 'linux' in sys.platform:
         listdrives=subprocess.Popen('mount', shell=True, stdout=subprocess.PIPE)

@@ -1,2 +1,2 @@
-Total Line Number: 1486
-Total Method Number: 20
+Total Line Number: 1532
+Total Method Number: 24

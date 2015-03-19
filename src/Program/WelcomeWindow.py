@@ -50,9 +50,7 @@ class WelcomeWindow(QMainWindow):
         self.setWindowTitle('Seagate Product Registration V%s'%(Version.version))
     
     def buttonClicked(self):
-#         self.show_message('SWITCH_WINDOW signal received')
         self.emit(QtCore.SIGNAL("SWITCH_WINDOW"), True)
-#         self.show_message('SWITCH_WINDOW end')
 
     def show_message(self, message):
         QtGui.QMessageBox.warning(self, 'Warning', message, QtGui.QMessageBox.Yes)

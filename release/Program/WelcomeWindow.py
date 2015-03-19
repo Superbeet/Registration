@@ -50,36 +50,10 @@ class WelcomeWindow(QMainWindow):
         self.setWindowTitle('Seagate Product Registration V%s'%(Version.version))
     
     def buttonClicked(self):
-#         self.show_message('SWITCH_WINDOW signal received')
         self.emit(QtCore.SIGNAL("SWITCH_WINDOW"), True)
-#         self.show_message('SWITCH_WINDOW end')
 
     def show_message(self, message):
         QtGui.QMessageBox.warning(self, 'Warning', message, QtGui.QMessageBox.Yes)
        
-if __name__ == '__main__':
-    app = QtGui.QApplication(sys.argv)
-    welcome_window = WelcomeWindow()
-    welcome_window.show() 
-    reg_window = RegWindow()
-    reg_window.accessRegPage()
-    
-    @pyqtSlot()
-    def switchWindow():
-#         welcome_window.close()
-#         reg_window.show_message('SWITCH_WINDOW starts')
-        
-#         welcome_window.deleteLater()
-        welcome_window.close()
-        
-#         reg_window.show_message('SWITCH_WINDOW complete!')
-        
-        reg_window.show()     
-        
-
-    
-    QObject.connect(welcome_window, SIGNAL("SWITCH_WINDOW"), switchWindow)
-    
-    sys.exit(app.exec_())
     
     

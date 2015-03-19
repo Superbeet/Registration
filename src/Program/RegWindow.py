@@ -11,6 +11,9 @@ from Utility import *
 
 import Version
 
+LOG_FILE = os.path.join(pathProgram(), 'log.txt')
+print LOG_FILE
+
 class RegWindow(QMainWindow):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
@@ -18,7 +21,8 @@ class RegWindow(QMainWindow):
         self.variable()
     
     def variable(self):
-        self.basic_url = "http://127.0.0.1:8000/"
+#         self.basic_url = "http://127.0.0.1:8000/"
+        self.basic_url = "http://www.google.com/"        
     
     def setup(self):
         self.resize(1024,800)
@@ -32,33 +36,36 @@ class RegWindow(QMainWindow):
         self.setWindowTitle('Seagate Product Registration V%s'%(Version.version))
             
     def accessRegPage(self):
-        self.show_message('accessRegPage')
-        
         if not check_connectivity(self.basic_url):
             self.show_message("The Internet is unreachable. Please check network connection.")
             QtCore.QCoreApplication.instance().quit()
         else:
             serial_num = self.getSerialNum('Seagate\\SerialNum', 'SerialNumber.xml')
-            MyPrint("--> Get Serial# - %s" %(serial_num))
-            full_url = "%s%s" %(self.basic_url, serial_num)
-            MyPrint("--> Access URL - %s" %(full_url))
-            self.accessPage(full_url)
-        
+            
+            if serial_num:
+                MyPrint("--> Get Serial# - %s" %(serial_num))
+                full_url = "%s%s" %(self.basic_url, serial_num)
+                MyPrint("--> Access URL - %s" %(full_url))
+                self.accessPage(full_url)
+                
+                return True
+            else:
+                self.show_message('Please connect Seagate Product to this computer.')
+                
+                return False
+                
     def getSerialNum(self, target_dir , file_name):
         full_path = None
+        driveList =  listDrives()
         
-        driveLines =  listDrives()
-        for line in driveLines:
-            if len(line):   # Avoid search for empty strings
-                drive_letter = searchDriveLetter(line)
-                if drive_letter: 
-                    if findFolder(drive_letter, target_dir):
-                        drive_id = drive_letter + ':\\'
-                        full_path = os.path.join(drive_id, target_dir, file_name)
-                        MyPrint("--> Find XML File - %s" %(full_path))
+        for driveID in driveList:
+            if findFolder(driveID, target_dir):
+                full_path = os.path.join(driveID, target_dir, file_name)
+                MyPrint("--> Find XML File - %s" %(full_path))
                         
         if full_path:         
             drive_info_dict = parseXML(full_path)
+            
             return drive_info_dict['SERIAL_NUM']
         else:
             return False

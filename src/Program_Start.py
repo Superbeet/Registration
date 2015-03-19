@@ -21,15 +21,12 @@ if __name__ == '__main__':
 #         welcome_window.close()
         global reg_window
         global welcome_window
-        
+
 #         welcome_window.deleteLater()
         welcome_window.close()        
-        
-        reg_window.show_message('SWITCH_WINDOW starts')
         reg_window = RegWindow()
-        reg_window.accessRegPage()
-        reg_window.show()     
-#         reg_window.show_message('SWITCH_WINDOW complete!')
+        if reg_window.accessRegPage():
+            reg_window.show()     
         
     QObject.connect(welcome_window, SIGNAL("SWITCH_WINDOW"), switchWindow)
     
