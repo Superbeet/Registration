@@ -40,7 +40,7 @@ class RegWindow(QMainWindow):
             self.show_message("The Internet is unreachable. Please check network connection.")
             QtCore.QCoreApplication.instance().quit()
         else:
-            serial_num = self.getSerialNum('Seagate\\SerialNum', 'SerialNumber.xml')
+            serial_num = self.getSerialNum(os.path.join('Seagate','SerialNum'), 'SerialNumber.xml')
             
             if serial_num:
                 MyPrint("--> Get Serial# - %s" %(serial_num))
