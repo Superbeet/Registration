@@ -5,6 +5,13 @@ import time
 
 __version__ = "0.5.1"
 
+def packageProgram(entry_path,icon_path):
+    print "[Package Program]%s"%(entry_path)
+    cmd = "pyinstaller --noconsole --onefile --icon=%s %s" %(icon_path, entry_path)
+#     cmd = "pyinstaller --onefile --noconsole --debug --icon=%s %s" %(icon_path, entry_path)
+    print "[Package CMD]%s"%(cmd)
+    os.system(cmd)
+
 def getCodeData(path):
     print "[Code Analysis]%s" %(path)
     
@@ -45,8 +52,8 @@ def getCodeData(path):
 
 def copyAnything(src, dst):
     try:
+        print "[Copy Content]%s->%s" %(src, dst)
         shutil.copytree(src, dst)
-        print "[Generate Temp Folder]%s" %(dst)
 
     except OSError as exc: # python >2.5
         if exc.errno == errno.ENOTDIR:
@@ -79,11 +86,6 @@ def removeFolder(folder_dir):
     else:
         print "[No found]%s"%(folder_dir)
 
-def packageProgram(entry_path,icon_path):
-    print "[Package Program]%s"%(entry_path)
-    cmd = "pyinstaller --noconsole --onefile --icon=%s %s" %(icon_path, entry_path)
-    print "[Package CMD]%s"%(cmd)
-    os.system(cmd)
 
 def changeExtension(entry_path,extension):
     print "[Modify Extension]%s"%(entry_path)
@@ -99,8 +101,15 @@ if __name__ == "__main__":
     working_dir = os.path.join(pathProgram(),'src')
     
     release_dir = os.path.join(pathProgram(),'release')
+    
+    dist_dir = os.path.join(pathProgram(),'dist')
 
-    cleanFolder(release_dir)
+    build_dir = os.path.join(pathProgram(),'build')
+
+    removeFolder(build_dir)
+    removeFolder(release_dir)
+    removeFolder(dist_dir)
+#     cleanFolder(release_dir)
 
     copyAnything(working_dir, release_dir)
     
@@ -112,13 +121,16 @@ if __name__ == "__main__":
     fileHandle.write ( 'Total Line Number: %s\nTotal Method Number: %s' %(lineNum, functionNum))
     fileHandle.close()
 
-    int_icon_path = os.path.join(pathProgram(),"release\\seagate_logo.ico") 
-    int_entry_path = os.path.join(pathProgram(),"release\\WelcomeWindow.py")
+    int_icon_path = os.path.join(pathProgram(),"release\\Program\\seagate_logo.ico") 
+    int_entry_path = os.path.join(pathProgram(),"release\\Program_Start.py")
 
     packageProgram(int_entry_path, int_icon_path)
 
     version_path = os.path.join(pathProgram(), "release", "Version.py")
+    version_str = "version = '%s'" %(__version__)
     
     fileHandle = open ( version_path, 'w' )
-    fileHandle.write ( '%s' %(__version__))
+    fileHandle.write ( version_str )
     fileHandle.close()
+
+    removeFolder(build_dir)
