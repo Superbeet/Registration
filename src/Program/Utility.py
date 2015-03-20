@@ -43,7 +43,7 @@ def listDrives():
     #on windows
     #Get the fixed drives
     #wmic logicaldisk get name,description
-    if 'win' == sys.platform:
+    if 'win' in sys.platform:
         import win32api
         
         drives = win32api.GetLogicalDriveStrings()
@@ -73,7 +73,7 @@ def listDrives():
             
     # guess how it should be on mac os, similar to linux , the mount command should 
     # work, but I can't verify it...
-    elif 'darwin' == sys.platform or 'macosx' == sys.platform:
+    elif 'darwin' in sys.platform or 'macosx' in sys.platform:
         driveList = os.listdir('/Volumes')
         
         driveFullList = []
