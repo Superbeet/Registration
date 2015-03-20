@@ -22,8 +22,8 @@ if __name__ == '__main__':
         global reg_window
         global welcome_window
 
-#         welcome_window.deleteLater()
-        welcome_window.close()        
+        welcome_window.deleteLater()
+#         welcome_window.close()        
         reg_window = RegWindow()
         if reg_window.accessRegPage():
             reg_window.show()     

@@ -21,8 +21,8 @@ class RegWindow(QMainWindow):
         self.variable()
     
     def variable(self):
-#         self.basic_url = "http://127.0.0.1:8000/"
-        self.basic_url = "http://www.google.com/"        
+        self.basic_url = "http://127.0.0.1:8000/"
+#         self.basic_url = "http://www.google.com/"        
     
     def setup(self):
         self.resize(1024,800)
