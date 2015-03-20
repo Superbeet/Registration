@@ -43,7 +43,7 @@ def listDrives():
     #on windows
     #Get the fixed drives
     #wmic logicaldisk get name,description
-    if 'win' in sys.platform:
+    if 'win' == sys.platform:
         import win32api
         
         drives = win32api.GetLogicalDriveStrings()
@@ -73,8 +73,15 @@ def listDrives():
             
     # guess how it should be on mac os, similar to linux , the mount command should 
     # work, but I can't verify it...
-    elif 'macosx' in sys.platform:
-        MyPrint("FIXME: Let's write some code.")
+    elif 'darwin' == sys.platform or 'macosx' == sys.platform:
+        driveList = os.listdir('/Volumes')
+        
+        driveFullList = []
+        
+        for driveName in driveList:
+            driveFullList.append(os.path.join('/Volumes',driveName))
+
+        return driveFullList
 
 def searchDriveLetter(target_str):
     '''
@@ -91,12 +98,15 @@ def searchDriveLetter(target_str):
         else:
             return False
     
-def findFolder(drive_letter, target_folder):
-    drive_id = drive_letter+':\\'
+def findFolder(drive_id, target_folder):
+    drive_id = drive_id
     full_directory = os.path.join(drive_id, target_folder)
-    MyPrint('--> Look up %s' %(full_directory))
     
-    if os.path.isdir(full_directory):
+    directory_found = os.path.isdir(full_directory)
+    
+    MyPrint('--> Look up %s (%s)' %(full_directory,directory_found))
+    
+    if directory_found:
         return True
     else:
         return False
@@ -106,9 +116,7 @@ def parseXML(xml_path):
     root = tree.getroot()
     drive_info_dict = {}
     
-    for drive_info_block in root.iter('DRIVEINFO'):
-#         print drive_info_block.find('SERIAL_NUM').text
-        
+    for drive_info_block in root.iter('DRIVEINFO'):     
         for block in drive_info_block:
             drive_info_dict.update({block.tag:block.text})
             

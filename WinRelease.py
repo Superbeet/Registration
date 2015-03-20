@@ -102,7 +102,7 @@ if __name__ == "__main__":
     
     release_dir = os.path.join(pathProgram(),'release')
     
-    dist_dir = os.path.join(pathProgram(),'dist')
+    dist_dir = os.path.join(pathProgram(),'dist_win')
 
     build_dir = os.path.join(pathProgram(),'build')
 

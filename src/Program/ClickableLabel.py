@@ -9,8 +9,3 @@ class ClickableLabel(QLabel):
     def mouseReleaseEvent(self, event):
 #         self.__show_message('Label clicked')
         self.emit(SIGNAL('clicked()'))
-        
-    def __show_message(self, message):
-        reply = QMessageBox.warning(self, 'Warning', message, QMessageBox.Yes)
-        if reply == QMessageBox.Yes:
-            print "YES"
